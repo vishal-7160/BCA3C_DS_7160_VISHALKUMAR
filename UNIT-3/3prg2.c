@@ -179,7 +179,7 @@ void insert_after()
     new_node=(struct node*)malloc(sizeof(struct node));
     new_node->data=num;
     ptr=start;
-    while(preptr->data!=val)
+    while(ptr->data!=val)
     {
        ptr=ptr->next;
     }
@@ -210,13 +210,15 @@ void delete_end()
 }
 void delete_node()
 {
+struct node *delete_specific(struct node *start)
+{
     struct node *ptr;
     int val;
 
     if(start==NULL)
     {
         printf("\n list is empty!");
-        return;
+        return start;
     }
 
     printf("\n enter the value of the node to be deleted:");
@@ -230,10 +232,28 @@ void delete_node()
     if(ptr==NULL)
     {
         printf("\n value not found!");
-        return;
+        return start;
     }
 
     if(ptr->prev==NULL)
+    {
+        start=ptr->next;
 
+        if(start !=NULL)
+            start->prev=NULL;
+    }
+    else
+    {
+        ptr->prev->next=ptr->next;
 
+        if(ptr->next !=NULL)
+            ptr->next->prev=ptr->prev;
+    }
+
+    free(ptr);
+
+    printf("\n node deleted successfully!");
+
+    return start;
+}
 }
